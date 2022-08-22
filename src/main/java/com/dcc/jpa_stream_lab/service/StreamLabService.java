@@ -1,9 +1,10 @@
 package com.dcc.jpa_stream_lab.service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -46,37 +47,36 @@ public class StreamLabService {
         // Return the COUNT of all the users from the User table.
         // You MUST use a .stream(), don't listen to the squiggle here!
         // Remember yellow squiggles are warnings and can be ignored.
-    	return 0;
+    	return users.count();
     }
 
     public List<Product> RDemoTwo()
     {
         // This query will get each product whose price is greater than $150.
-    	return products.findAll().stream().filter(p -> p.getPrice() > 150).toList();
+    	return products.findAll().stream().filter(price -> price.getPrice() > 150).toList();
     }
 
     public List<Product> RProblemTwo()
     {
         // Write a query that gets each product whose price is less than or equal to $100.
         // Return the list
-        return null;
+        return products.findAll().stream().filter(price -> price.getPrice() <= 100).toList();
     }
 
     public List<Product> RProblemThree()
     {
         // Write a query that gets each product that CONTAINS an "s" in the products name.
         // Return the list
-    	return null;
+    	return products.findAll().stream().filter(name -> name.getName().contains("s")).toList();
     }
 
-    public List<User> RProblemFour()
-    {
+    public List<User> RProblemFour() {
         // Write a query that gets all the users who registered BEFORE 2016
         // Return the list
         // Research 'java create specific date' and 'java compare dates'
         // You may need to use the helper classes imported above!
-    	
-        return null;
+        long filterDate = new GregorianCalendar(2016, Calendar.JANUARY, 1).getTimeInMillis();
+        return users.findAll().stream().filter(date -> (date.getRegistrationDate().getTime() < filterDate)).toList();
     }
 
     public List<User> RProblemFive()
