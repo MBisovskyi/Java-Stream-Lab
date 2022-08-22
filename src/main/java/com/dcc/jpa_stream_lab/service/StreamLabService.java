@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -83,8 +84,9 @@ public class StreamLabService {
     {
         // Write a query that gets all of the users who registered AFTER 2016 and BEFORE 2018
         // Return the list
-
-        return null;
+        long afterYear = new GregorianCalendar(2016, Calendar.JANUARY, 1).getTimeInMillis();
+        long beforeYear = new GregorianCalendar(2018, Calendar.JANUARY, 1).getTimeInMillis();
+        return users.findAll().stream().filter(date -> (date.getRegistrationDate().getTime() < beforeYear && date.getRegistrationDate().getTime() > afterYear)).toList();
     }
 
     // <><><><><><><><> R Actions (Read) with Foreign Keys <><><><><><><><><>
@@ -93,26 +95,27 @@ public class StreamLabService {
     {
         // Write a query that retrieves all of the users who are assigned to the role of Customer.
     	Role customerRole = roles.findAll().stream().filter(r -> r.getName().equals("Customer")).findFirst().orElse(null);
-    	List<User> customers = users.findAll().stream().filter(u -> u.getRoles().contains(customerRole)).toList();
-
-    	return customers;
+        return users.findAll().stream().filter(u -> u.getRoles().contains(customerRole)).toList();
     }
 
     public List<Product> RProblemSix()
     {
         // Write a query that retrieves all of the products in the shopping cart of the user who has the email "afton@gmail.com".
         // Return the list
-
-    	return null;
+        User filteredUser = (users.findAll().stream().filter(user -> user.getEmail().equals("afton@gmail.com")).findFirst().orElse(null));
+        List <ShoppingcartItem> userProducts = shoppingcartitems.findAll().stream().filter(cart -> cart.getUser().equals(filteredUser)).toList();
+        return userProducts.stream().map(ShoppingcartItem::getProduct).toList();
     }
 
     public long RProblemSeven()
     {
         // Write a query that retrieves all of the products in the shopping cart of the user who has the email "oda@gmail.com" and returns the sum of all of the products prices.
     	// Remember to break the problem down and take it one step at a time!
-
-
-    	return 0;
+        User filteredUser = (users.findAll().stream().filter(user -> user.getEmail().equals("oda@gmail.com")).findFirst().orElse(null));
+        List <ShoppingcartItem> userShoppingCart = shoppingcartitems.findAll().stream().filter(cart -> cart.getUser().equals(filteredUser)).toList();
+        List <Product> userProducts = userShoppingCart.stream().map(ShoppingcartItem::getProduct).toList();
+        List<Integer> userProductsPrices = userProducts.stream().map(Product::getPrice).toList();
+        return userProductsPrices.stream().reduce(0, Integer::sum);
 
     }
 
