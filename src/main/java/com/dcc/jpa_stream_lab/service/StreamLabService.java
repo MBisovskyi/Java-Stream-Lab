@@ -1,13 +1,8 @@
 package com.dcc.jpa_stream_lab.service;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -123,8 +118,10 @@ public class StreamLabService {
     {
         // Write a query that retrieves all of the products in the shopping cart of users who have the role of "Employee".
     	// Return the list
-
-    	return null;
+        Role userRole = roles.findAll().stream().filter(role -> role.getName().equals("Employee")).findFirst().orElse(null);
+//        List<User> employees = users.findAll().stream().filter(user -> user.getRoles().contains(userRole)).toList();
+        List<ShoppingcartItem> employeesShoppingCarts = shoppingcartitems.findAll().stream().filter(cart -> cart.getUser().getRoles().contains(userRole)).toList();
+    	return employeesShoppingCarts.stream().map(ShoppingcartItem::getProduct).toList();
     }
 
     // <><><><><><><><> CUD (Create, Update, Delete) Actions <><><><><><><><><>
