@@ -1,8 +1,10 @@
 package com.dcc.jpa_stream_lab.controllers;
 
+import java.net.http.HttpResponse;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import com.dcc.jpa_stream_lab.service.StreamLabService;
@@ -10,6 +12,7 @@ import com.dcc.jpa_stream_lab.models.Product;
 import com.dcc.jpa_stream_lab.models.Role;
 import com.dcc.jpa_stream_lab.models.ShoppingcartItem;
 import com.dcc.jpa_stream_lab.models.User;
+
 
 @RestController
 public class StreamLabController {
@@ -84,6 +87,7 @@ public class StreamLabController {
     }
     
     @PostMapping("/CProblemOne")
+
     public Product CProblemOne() {
     	return service.CProblemOne();
     }
@@ -111,18 +115,22 @@ public class StreamLabController {
     }
     
     @PutMapping("/UProblemTwo")
-    public User UProblemTwo() {
-    	return service.UProblemTwo();
+    @ResponseStatus(value = HttpStatus.ACCEPTED, reason = "Updated")
+    public void UProblemTwo() {
+        service.UProblemTwo();
     }
 
     //BONUS:
     // <><> D Actions (Delete) <><> (Add Below)
     @DeleteMapping("/DProblemOne")
-    public String DProblemone() {return  service.DProblemOne(); }
+    @ResponseStatus(value = HttpStatus.ACCEPTED, reason = "Deleted")
+    public void DProblemone() {service.DProblemOne(); }
 
     @DeleteMapping("/DProblemTwo")
-    public String DProblemTwo() {return service.DProblemTwo(); }
+    @ResponseStatus(value = HttpStatus.ACCEPTED, reason = "Deleted")
+    public void DProblemTwo() {service.DProblemTwo(); }
 
     @DeleteMapping("/DProblemThree")
-    public String DProblemThree() {return service.DProblemThree(); }
+    @ResponseStatus(value = HttpStatus.ACCEPTED, reason = "Deleted")
+    public void DProblemThree() {service.DProblemThree(); }
 }

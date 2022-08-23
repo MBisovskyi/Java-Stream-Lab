@@ -387,7 +387,7 @@
 			"response": []
 		},
 		{
-			"name": "New Request",
+			"name": "Delete Problem Three",
 			"request": {
 				"method": "DELETE",
 				"header": [],

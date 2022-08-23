@@ -1,11 +1,11 @@
 package com.dcc.jpa_stream_lab.service;
+import java.net.http.HttpResponse;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.GregorianCalendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -83,7 +83,7 @@ public class StreamLabService {
         // Return the list
         long afterYear = new GregorianCalendar(2016, Calendar.JANUARY, 1).getTimeInMillis();
         long beforeYear = new GregorianCalendar(2018, Calendar.JANUARY, 1).getTimeInMillis();
-        return users.findAll().stream().filter(date -> (date.getRegistrationDate().getTime() < beforeYear && date.getRegistrationDate().getTime() > afterYear)).toList();
+        return users.findAll().stream().filter(date -> (date.getRegistrationDate().getTime() > afterYear && date.getRegistrationDate().getTime() < beforeYear)).toList();
     }
 
     // <><><><><><><><> R Actions (Read) with Foreign Keys <><><><><><><><><>
@@ -121,7 +121,6 @@ public class StreamLabService {
         // Write a query that retrieves all of the products in the shopping cart of users who have the role of "Employee".
     	// Return the list
         Role userRole = roles.findAll().stream().filter(role -> role.getName().equals("Employee")).findFirst().orElse(null);
-//        List<User> employees = users.findAll().stream().filter(user -> user.getRoles().contains(userRole)).toList();
         List<ShoppingcartItem> employeesShoppingCarts = shoppingcartitems.findAll().stream().filter(cart -> cart.getUser().getRoles().contains(userRole)).toList();
     	return employeesShoppingCarts.stream().map(ShoppingcartItem::getProduct).toList();
     }
@@ -198,17 +197,15 @@ public class StreamLabService {
     	return updateProduct;
     }
 
-    public User UProblemTwo()
+    public void UProblemTwo()
     {
         // Change the role of the user we created to "Employee"
         // HINT: You need to delete the existing role relationship and then create a new UserRole object and add it to the UserRoles table
         Role customer = (roles.findAll().stream().filter(role -> role.getName().equals("Customer")).findFirst().orElse(null));
         Role employee = roles.findAll().stream().filter(role -> role.getName().equals("Employee")).findFirst().orElse(null);
-        User david = users.findAll().stream().filter(user -> user.getEmail().equals("david@gmail.com")).findFirst().orElse(null);
+        User david = users.findAll().stream().filter(user -> user.getEmail().equals("afton@gmail.com")).findFirst().orElse(null);
         david.removeRole(customer);
         david.addRole(employee);
-
-    	return david;
     }
 
     //BONUS:
@@ -218,34 +215,31 @@ public class StreamLabService {
     
 	// DProblemOne
     // Delete the role relationship from the user who has the email "oda@gmail.com".
-    public String DProblemOne()
+    public void DProblemOne()
     {
-        User getUser = users.findAll().stream().filter(user -> user.getEmail().equals("oda@gmail.com")).findFirst().orElse(null);
+        User getUser = users.findAll().stream().filter(user -> user.getEmail().equals("afton@gmail.com")).findFirst().orElse(null);
         Role userRole = roles.findAll().stream().filter(role -> role.getUsers().contains(getUser)).findFirst().orElse(null);
         getUser.removeRole(userRole);
-        return "Role is removed";
     }
 
     // DProblemTwo
     // Delete all the product relationships to the user with the email "oda@gmail.com" in the ShoppingCart table.
-    public String DProblemTwo() {
-        User filteredUser = users.findAll().stream().filter(user -> user.getEmail().equals("oda@gmail.com")).findFirst().orElse(null);
+    public void DProblemTwo() {
+        User filteredUser = users.findAll().stream().filter(user -> user.getEmail().equals("bibi@gmail.com")).findFirst().orElse(null);
         List<ShoppingcartItem> userShoppingCarts = filteredUser.getShoppingcartItems();
         List<Integer> userCartsIds = userShoppingCarts.stream().map(ShoppingcartItem::getId).toList();
         for (int i = 0; i < userShoppingCarts.size(); i++) {
             int cartId = userCartsIds.get(i);
             shoppingcartitems.deleteById(cartId);
         }
-        return "Successfully removed";
     }
 
     // DProblemThree
     // Delete the user with the email "oda@gmail.com" from the Users table.
-    public String DProblemThree() {
-        User filteredUser = users.findAll().stream().filter(user -> user.getEmail().equals("oda@gmail.com")).findFirst().orElse(null);
+    public void DProblemThree() {
+        User filteredUser = users.findAll().stream().filter(user -> user.getEmail().equals("bibi@gmail.com")).findFirst().orElse(null);
         int userId = filteredUser.getId();
         users.deleteById(userId);
-        return "User removed";
     }
 
 }
