@@ -132,8 +132,8 @@ public class StreamLabService {
     {
         // Create a new User object and add that user to the Users table.
         User newUser = new User();        
-        newUser.setEmail("david@gmail.com");
-        newUser.setPassword("DavidsPass123");
+        newUser.setEmail("mykola@gmail.com");
+        newUser.setPassword("MykolaPass123");
         users.save(newUser);
         return newUser;
     }
@@ -142,9 +142,13 @@ public class StreamLabService {
     {
         // Create a new Product object and add that product to the Products table.
         // Return the product
-    	
+    	Product newProduct = new Product();
+        newProduct.setName("Epson XP2105 Printer");
+        newProduct.setDescription("Used Printer in a good shape! Uses ink cartridges type 220!");
+        newProduct.setPrice(150);
+        products.save(newProduct);
 
-    	return null;
+    	return newProduct;
 
     }
 
@@ -162,8 +166,14 @@ public class StreamLabService {
     	// Create a new ShoppingCartItem to represent the new product you created being added to the new User you created's shopping cart.
         // Add the product you created to the user we created in the ShoppingCart junction table.
         // Return the ShoppingcartItem
-
-    	return null;
+        User userDavid = users.findAll().stream().filter(user -> user.getEmail().equals("david@gmail.com")).findFirst().orElse(null);
+        Product userDavidProduct = products.findAll().stream().filter(product -> product.getName().contains("Epson")).findFirst().orElse(null);
+        ShoppingcartItem userDavidShoppingCart = new ShoppingcartItem();
+        userDavidShoppingCart.setProduct(userDavidProduct);
+        userDavidShoppingCart.setUser(userDavid);
+        userDavidShoppingCart.setQuantity(+1);
+        shoppingcartitems.save(userDavidShoppingCart);
+    	return userDavidShoppingCart;
     	
     }
 
@@ -181,15 +191,22 @@ public class StreamLabService {
     {
         // Update the price of the product you created to a different value.
         // Return the updated product
-    	return null;
+        Product updateProduct = products.findAll().stream().filter(product -> product.getName().contains("Epson")).findFirst().orElse(null);
+        updateProduct.setPrice(149);
+    	return updateProduct;
     }
 
     public User UProblemTwo()
     {
         // Change the role of the user we created to "Employee"
         // HINT: You need to delete the existing role relationship and then create a new UserRole object and add it to the UserRoles table
+        Role customer = (roles.findAll().stream().filter(role -> role.getName().equals("Customer")).findFirst().orElse(null));
+        Role employee = roles.findAll().stream().filter(role -> role.getName().equals("Employee")).findFirst().orElse(null);
+        User david = users.findAll().stream().filter(user -> user.getEmail().equals("david@gmail.com")).findFirst().orElse(null);
+        david.removeRole(customer);
+        david.addRole(employee);
 
-    	return null;
+    	return david;
     }
 
     //BONUS:
