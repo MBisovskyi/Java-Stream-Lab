@@ -3,11 +3,7 @@ package com.dcc.jpa_stream_lab.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.dcc.jpa_stream_lab.service.StreamLabService;
 import com.dcc.jpa_stream_lab.models.Product;
@@ -121,7 +117,12 @@ public class StreamLabController {
 
     //BONUS:
     // <><> D Actions (Delete) <><> (Add Below)
-    
+    @DeleteMapping("/DProblemOne")
+    public String DProblemone() {return  service.DProblemOne(); }
 
-    
+    @DeleteMapping("/DProblemTwo")
+    public String DProblemTwo() {return service.DProblemTwo(); }
+
+    @DeleteMapping("/DProblemThree")
+    public String DProblemThree() {return service.DProblemThree(); }
 }

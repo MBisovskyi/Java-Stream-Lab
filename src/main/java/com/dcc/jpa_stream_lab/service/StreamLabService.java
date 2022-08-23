@@ -1,6 +1,7 @@
 package com.dcc.jpa_stream_lab.service;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.GregorianCalendar;
 
@@ -16,6 +17,7 @@ import com.dcc.jpa_stream_lab.models.Product;
 import com.dcc.jpa_stream_lab.models.Role;
 import com.dcc.jpa_stream_lab.models.ShoppingcartItem;
 import com.dcc.jpa_stream_lab.models.User;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Transactional
 @Service
@@ -216,11 +218,34 @@ public class StreamLabService {
     
 	// DProblemOne
     // Delete the role relationship from the user who has the email "oda@gmail.com".
+    public String DProblemOne()
+    {
+        User getUser = users.findAll().stream().filter(user -> user.getEmail().equals("oda@gmail.com")).findFirst().orElse(null);
+        Role userRole = roles.findAll().stream().filter(role -> role.getUsers().contains(getUser)).findFirst().orElse(null);
+        getUser.removeRole(userRole);
+        return "Role is removed";
+    }
 
     // DProblemTwo
     // Delete all the product relationships to the user with the email "oda@gmail.com" in the ShoppingCart table.
+    public String DProblemTwo() {
+        User filteredUser = users.findAll().stream().filter(user -> user.getEmail().equals("oda@gmail.com")).findFirst().orElse(null);
+        List<ShoppingcartItem> userShoppingCarts = filteredUser.getShoppingcartItems();
+        List<Integer> userCartsIds = userShoppingCarts.stream().map(ShoppingcartItem::getId).toList();
+        for (int i = 0; i < userShoppingCarts.size(); i++) {
+            int cartId = userCartsIds.get(i);
+            shoppingcartitems.deleteById(cartId);
+        }
+        return "Successfully removed";
+    }
 
     // DProblemThree
-    // Delete the user with the email "oda@gmail.com" from the Users table using LINQ.
+    // Delete the user with the email "oda@gmail.com" from the Users table.
+    public String DProblemThree() {
+        User filteredUser = users.findAll().stream().filter(user -> user.getEmail().equals("oda@gmail.com")).findFirst().orElse(null);
+        int userId = filteredUser.getId();
+        users.deleteById(userId);
+        return "User removed";
+    }
 
 }

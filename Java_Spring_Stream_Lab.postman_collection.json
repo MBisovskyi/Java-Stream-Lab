@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "00007686-5900-4706-a2df-e3a9036c6057",
+		"_postman_id": "a7bae865-ed0f-43c7-ae8c-a1bb0ee0419f",
 		"name": "Java Spring Stream Lab",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "13455599"
+		"_exporter_id": "21932023"
 	},
 	"item": [
 		{
@@ -343,6 +343,63 @@
 					"port": "8080",
 					"path": [
 						"UProblemTwo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Problem One",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/DProblemOne",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"DProblemOne"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Problem Two",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/DProblemTwo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"DProblemTwo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/DProblemThree",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"DProblemThree"
 					]
 				}
 			},
